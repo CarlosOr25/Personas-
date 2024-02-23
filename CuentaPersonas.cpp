@@ -15,12 +15,16 @@ struct persona{
 };
 
 int main(){
-    int eleccion; 
+
     ifstream archivo("personas.csv", ios::in);
     string linea;
-    persona persona_mayor;
-    persona_mayor.edad = -1;
+    persona persona_mayor_masculino, persona_mayor_femenino, persona_mayor_esteban;
     
+    persona_mayor_masculino.edad = -1;
+    persona_mayor_femenino.edad = -1;
+    persona_mayor_esteban.edad = -1;
+
+int eleccion;
 
     if(archivo.is_open()){
         while(getline(archivo, linea)){
@@ -58,12 +62,19 @@ int main(){
             p.edad = atoi(linea.substr(0, pos).c_str());
             linea.erase(0, pos +1);
 
-            if(p.edad > persona_mayor.edad){
-                persona_mayor= p;
+            if(p.genero == "Male" && p.edad > persona_mayor_masculino.edad){
+                persona_mayor_masculino = p;
+        }
+            else if(p.genero == "Female" && p.edad > persona_mayor_femenino.edad){
+                persona_mayor_femenino = p;
+        }
+            else if(p.genero != "Male" && p.genero != "Female" && p.edad > persona_mayor_esteban.edad){
+                persona_mayor_esteban = p;
+        }
             }
         }
 
-    }
+
     else{
         cout<<"Error al abrir el archivo. "<<endl;
     }
@@ -73,7 +84,7 @@ int main(){
     <<"2. sacar la proporcion de cada genero. "<<"\n"
     <<"3. Ver el promedio de edad. "<<"\n"
     <<"4. Agregar datos. "<<"\n"
-    <<"5. Eliminar datos. "<<"\n"
+    <<"5. Eliminar datos . "<<"\n"
     <<"6. Buscar un registro."<<"\n"
     <<"7. Modificar datos de un registro. "<<endl;
     cin>>eleccion;
@@ -82,12 +93,9 @@ int main(){
 
         case 1: //Persona de mayor edad de cada genero.
 
-           if (persona_mayor.edad != -1) {
-        cout << "Nombres: " << persona_mayor.nombre << " " << persona_mayor.apellido << "\n";
-        cout << "Edad: " << persona_mayor.edad << "\n";
-    } else {
-        cout << "No se encontraron personas en el archivo.\n";
-
+        cout << "Genero: masculino, Nombre: " << persona_mayor_masculino.nombre << ", Apellido: " << persona_mayor_masculino.apellido << ", Edad: " << persona_mayor_masculino.edad << "\n";
+cout << "Genero: femenino, Nombre: " << persona_mayor_femenino.nombre << ", Apellido: " << persona_mayor_femenino.apellido << ", Edad: " << persona_mayor_femenino.edad << "\n";
+cout << "Genero: otros, Nombre: " << persona_mayor_esteban.nombre << ", Apellido: " << persona_mayor_esteban.apellido << ", Edad: " << persona_mayor_esteban.edad << "\n";
 
         break; 
 
@@ -103,4 +111,4 @@ int main(){
     return 0;
 
     }
-}
+
